@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode, useEffect, useState } from 'react'
+import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react'
 import {
   MapPin,
   Phone,
@@ -83,12 +83,44 @@ const inputClass =
   'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:border-gray-400 transition bg-white'
 const labelClass = 'text-xs text-gray-500 uppercase tracking-widest mb-2 block'
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [hasValue, setHasValue] = useState(false)
 
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const messageRef = useRef<HTMLTextAreaElement>(null)
+
+  const [errors, setErrors] = useState({ name: '', email: '', message: '' })
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    const name = nameRef.current?.value.trim() ?? ''
+    const email = emailRef.current?.value.trim() ?? ''
+    const message = messageRef.current?.value.trim() ?? ''
+
+    const newErrors = { name: '', email: '', message: '' }
+    let valid = true
+
+    if (!name) { newErrors.name = 'This field is required'; valid = false }
+    if (!email) {
+      newErrors.email = 'This field is required'; valid = false
+    } else if (!isValidEmail(email)) {
+      newErrors.email = 'Please enter a valid email address'; valid = false
+    }
+    if (!message) { newErrors.message = 'This field is required'; valid = false }
+
+    setErrors(newErrors)
+    if (!valid) return
+
+    // Clear fields and show success
+    if (nameRef.current) nameRef.current.value = ''
+    if (emailRef.current) emailRef.current.value = ''
+    if (messageRef.current) messageRef.current.value = ''
     setSubmitted(true)
   }
 
@@ -151,7 +183,7 @@ export default function Contact() {
                   <a
                     key={i}
                     href="#"
-                    className="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition"
+                    className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition"
                   >
                     <Icon className="text-gray-500 w-4 h-4" />
                   </a>
@@ -162,87 +194,108 @@ export default function Contact() {
 
           {/* Right column — form */}
           <SlideIn from="right" delay={200}>
-            <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-8 shadow-sm">
-              <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-                <div>
-                  <label className={labelClass}>Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Alex Monroe"
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label className={labelClass}>Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="alex@company.com"
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label className={labelClass}>Company</label>
-                  <input
-                    type="text"
-                    placeholder="Your company name"
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label className={labelClass}>
-                    What are you looking for?
-                  </label>
-                  <div className="relative">
-                    <select
-                      className={`w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-400 transition bg-white appearance-none cursor-pointer ${
-                        hasValue ? 'text-gray-800' : 'text-gray-300'
-                      }`}
-                      defaultValue=""
-                      onChange={(e) => setHasValue(e.target.value !== '')}
-                    >
-                      <option value="" disabled>
-                        Select an option
-                      </option>
-                      <option>Investing</option>
-                      <option>Building</option>
-                      <option>Advisory</option>
-                      <option>General Inquiry</option>
-                    </select>
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </div>
+            <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-8 shadow-sm overflow-visible">
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-16 gap-4">
+                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-2xl font-medium">
+                    ✓
                   </div>
-                </div>
-
-                <div>
-                  <label className={labelClass}>Message</label>
-                  <textarea
-                    rows={5}
-                    placeholder="Tell us what's on your mind..."
-                    className={inputClass}
-                  />
-                </div>
-
-                {submitted ? (
-                  <p className="text-green-600 text-sm font-medium text-center mt-2">
+                  <p className="text-green-600 text-sm font-medium text-center">
                     Message sent! We&apos;ll be in touch soon.
                   </p>
-                ) : (
+                </div>
+              ) : (
+                <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
+                  <div>
+                    <label className={labelClass}>Full Name</label>
+                    <input
+                      ref={nameRef}
+                      type="text"
+                      placeholder="Alex Monroe"
+                      className={inputClass}
+                      onChange={() => setErrors((e) => ({ ...e, name: '' }))}
+                    />
+                    {errors.name && (
+                      <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className={labelClass}>Email Address</label>
+                    <input
+                      ref={emailRef}
+                      type="email"
+                      placeholder="alex@company.com"
+                      className={inputClass}
+                      onChange={() => setErrors((e) => ({ ...e, email: '' }))}
+                    />
+                    {errors.email && (
+                      <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className={labelClass}>Company</label>
+                    <input
+                      type="text"
+                      placeholder="Your company name"
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={labelClass}>
+                      What are you looking for?
+                    </label>
+                    <div className="relative" style={{ position: 'relative', zIndex: 50 }}>
+                      <select
+                        size={1}
+                        className={`w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-400 transition bg-white appearance-none cursor-pointer ${
+                          hasValue ? 'text-gray-800' : 'text-gray-300'
+                        }`}
+                        defaultValue=""
+                        onChange={(e) => setHasValue(e.target.value !== '')}
+                      >
+                        <option value="" disabled>
+                          Select an option
+                        </option>
+                        <option>Investing</option>
+                        <option>Building</option>
+                        <option>Advisory</option>
+                        <option>General Inquiry</option>
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelClass}>Message</label>
+                    <textarea
+                      ref={messageRef}
+                      rows={5}
+                      placeholder="Tell us what's on your mind..."
+                      className={inputClass}
+                      onChange={() => setErrors((e) => ({ ...e, message: '' }))}
+                    />
+                    {errors.message && (
+                      <p className="text-red-400 text-xs mt-1">{errors.message}</p>
+                    )}
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full bg-black text-white py-3 rounded-xl text-sm font-medium hover:bg-gray-800 transition mt-2"
+                    className="w-full bg-black text-white py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition mt-2"
                   >
                     Send Message
                   </button>
-                )}
 
-                <p className="text-xs text-gray-400 text-center mt-3">
-                  We typically respond within 24 hours
-                </p>
-              </form>
+                  <p className="text-xs text-gray-400 text-center mt-3">
+                    We typically respond within 24 hours
+                  </p>
+                </form>
+              )}
             </div>
           </SlideIn>
         </div>

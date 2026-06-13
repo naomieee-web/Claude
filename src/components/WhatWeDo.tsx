@@ -47,8 +47,8 @@ const pillars: Pillar[] = [
   {
     icon: Layers,
     title: 'Building',
-    iconBg: 'bg-yellow-100',
-    iconColor: 'text-yellow-500',
+    iconBg: 'bg-green-100',
+    iconColor: 'text-green-500',
     body: 'We build ventures and products in-house, taking ideas from zero to one with disciplined craft, focused teams, and an obsession with what endures.',
     delay: 600,
   },
@@ -97,7 +97,7 @@ export default function WhatWeDo() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {pillars.map(({ icon: Icon, title, body, delay, iconBg, iconColor }) => (
           <Reveal key={title} delay={delay} distance={30}>
-            <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-6 h-full">
+            <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:border-gray-200 transition-all duration-300 flex flex-col gap-6 h-full">
               <div>
                 <div className={`rounded-xl p-3 ${iconBg} w-fit mb-2`}>
                   <Icon className={`w-5 h-5 ${iconColor}`} />

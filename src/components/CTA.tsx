@@ -58,11 +58,11 @@ export default function CTA() {
           <div className="flex gap-4 justify-center flex-wrap">
             <Link
               to="/contact"
-              className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition inline-block"
+              className="bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition inline-block"
             >
               Start a Chat
             </Link>
-            <button className="border border-gray-200 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition">
+            <button className="border border-gray-200 text-gray-700 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition">
               Learn More
             </button>
           </div>
@@ -70,7 +70,7 @@ export default function CTA() {
 
         <div className="mt-16 w-full">
           <Reveal delay={600} distance={20}>
-            <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative w-full aspect-[4/3] md:aspect-[16/7] rounded-2xl overflow-hidden shadow-xl">
               <img
                 src="/cta-image.jpg"
                 alt="A river winding through a mountain valley"

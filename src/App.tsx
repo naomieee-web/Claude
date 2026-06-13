@@ -15,7 +15,7 @@ const VIDEO_URL =
 
 function Home() {
   return (
-    <main className="bg-black text-white w-full max-w-[100vw] overflow-x-hidden">
+    <main className="bg-black text-white w-full max-w-[100vw] overflow-x-hidden scroll-smooth">
       <div className="relative h-[100svh] overflow-hidden w-full">
       <video
         src={VIDEO_URL}
@@ -51,11 +51,11 @@ function Home() {
                 <div className="flex flex-wrap gap-4">
                   <Link
                     to="/contact"
-                    className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors inline-block"
+                    className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors inline-block"
                   >
                     Start a Chat
                   </Link>
-                  <button className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors">
+                  <button className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-full font-medium hover:bg-white hover:text-black transition-colors">
                     Explore Now
                   </button>
                 </div>

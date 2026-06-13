@@ -29,7 +29,7 @@ export default function Navbar({ variant = 'glass' }: NavbarProps) {
 
           <Link
             to="/contact"
-            className="bg-black text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors inline-block"
+            className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors inline-block"
           >
             Start a Chat
           </Link>
@@ -57,7 +57,7 @@ export default function Navbar({ variant = 'glass' }: NavbarProps) {
 
         <Link
           to="/contact"
-          className="bg-white text-black px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors inline-block"
+          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors inline-block"
         >
           Start a Chat
         </Link>
