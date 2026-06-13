@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import useInView from '../hooks/useInView'
 
 interface RevealProps {
@@ -55,9 +56,12 @@ export default function CTA() {
 
         <Reveal delay={450} distance={20}>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition">
+            <Link
+              to="/contact"
+              className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition inline-block"
+            >
               Start a Chat
-            </button>
+            </Link>
             <button className="border border-gray-200 text-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition">
               Learn More
             </button>

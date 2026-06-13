@@ -112,9 +112,9 @@ export default function WhatWeDo() {
 
       <Reveal delay={900} distance={20}>
         <div className="border-t border-gray-200 mt-8 pt-10">
-          <div className="flex justify-between">
+          <div className="grid grid-cols-3">
             {stats.map(({ value, label }) => (
-              <div key={label}>
+              <div key={label} className="text-center">
                 <div className="text-3xl font-light text-gray-900">{value}</div>
                 <div className="text-xs text-gray-400 tracking-widest uppercase mt-1">
                   {label}

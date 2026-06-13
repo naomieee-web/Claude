@@ -1,3 +1,4 @@
+import { Routes, Route, Link } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import AnimatedHeading from './components/AnimatedHeading'
 import FadeIn from './components/FadeIn'
@@ -7,11 +8,12 @@ import Team from './components/Team'
 import CTA from './components/CTA'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
+import Contact from './components/Contact'
 
 const VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4'
 
-export default function App() {
+function Home() {
   return (
     <main className="bg-black text-white w-full max-w-[100vw] overflow-x-hidden">
       <div className="relative h-[100svh] overflow-hidden w-full">
@@ -47,9 +49,12 @@ export default function App() {
 
               <FadeIn delay={1200} duration={1000}>
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                  <Link
+                    to="/contact"
+                    className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors inline-block"
+                  >
                     Start a Chat
-                  </button>
+                  </Link>
                   <button className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors">
                     Explore Now
                   </button>
@@ -73,5 +78,14 @@ export default function App() {
 
       <Footer />
     </main>
+  )
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/contact" element={<Contact />} />
+    </Routes>
   )
 }

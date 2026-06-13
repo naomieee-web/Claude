@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const columns = [
   {
     heading: 'Company',
@@ -35,9 +37,12 @@ export default function Footer() {
           <p className="text-gray-500 text-sm leading-relaxed max-w-[180px]">
             Shaping tomorrow with vision and action.
           </p>
-          <button className="mt-6 inline-block bg-white text-black text-xs font-medium px-5 py-2 rounded-lg hover:bg-gray-100 transition">
+          <Link
+            to="/contact"
+            className="mt-6 inline-block bg-white text-black text-xs font-medium px-5 py-2 rounded-lg hover:bg-gray-100 transition"
+          >
             Start a Chat
-          </button>
+          </Link>
         </div>
 
         {columns.map(({ heading, links }) => (
